@@ -79,7 +79,11 @@ export function stateMixin(Vue) {
   const dataDef = {
     get: function() { return this._data }
   }
+  const propsDef = {
+    get: function() { return this._props }
+  }
   Object.defineProperty(Vue.prototype, '$data', dataDef);
+  Object.defineProperty(Vue.prototype, '$props', propsDef);
 
   Vue.prototype.$watch = function(expOrFn, cb, options) {
     const vm = this;

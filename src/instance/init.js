@@ -1,4 +1,7 @@
 import { initState } from './state';
+import { initEvents } from './events';
+import { initLifecycle, callHook } from './lifecycle';
+import { initRender } from './render';
 
 let uid = 0;
 
@@ -10,6 +13,11 @@ export function initMixin(Vue) {
     vm._self = vm;
     vm.$options = options;
 
+    initLifecycle(vm);
+    initEvents(vm);
+    initRender(vm);
+    callHook(vm, 'beforeCreate');
     initState(vm);
+    callHook(vm, 'created');
   }
 }
