@@ -1,5 +1,12 @@
 import VNode from "./vnode";
 
+const componentVNodeHooks = {
+  init (vnode, hydrating) {
+    const child = vnode.componentInstance = createComponentInstanceForVnode(vnode);
+    child.$mount(hydrating ? vnode.elm : undefined, hydrating);
+  }
+}
+
 export function createComponent(
   Ctor,
   data,
@@ -23,4 +30,14 @@ export function createComponent(
   )
 
   return vnode;
+}
+
+export function createComponentInstanceForVnode(vnode, parent) {
+  const options = {
+    _isComponent: true,
+    _parentVnode: vnode,
+    parent,
+  }
+
+  return new vnode.componentOptions.Ctor(options);
 }
